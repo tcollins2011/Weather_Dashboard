@@ -9,7 +9,8 @@
 // API key = 05eafc3d640b89d430555b1c8c878c13
 
 
-
+var date = new Date(11,24,33)
+console.log(date)
 $("#add-city").on("click", function(event){
     event.preventDefault();
     $('.cityWeather').empty()
@@ -32,17 +33,19 @@ function displayCityInfo(){
         var humidity = $('<h5>').text('Humidity: ' + response.main.humidity + '%')
         var windSpeed = $('<h5>').text('Wind speed: ' + response.wind.speed + ' MPH')
         var uvIndex = $('<h5>').text('Cloud coverage: ' + response.clouds.all +'%')
-        var icon = $('<h5>').text(response.weather.icon)
+        var cityName = $('<h3>').text(response.name)
         console.log(response)
         console.log(temp)
         console.log(humidity)
         console.log(windSpeed)
         console.log(uvIndex)
+        $('.cityWeather').append(cityName)
         $('.cityWeather').append(temp)
         $('.cityWeather').append(humidity)
         $('.cityWeather').append(windSpeed)
         $('.cityWeather').append(uvIndex)
-        $('.cityWeather').append(icon)
+        $("#exampleInputCity").val('')
+        
     
     // append info to each line in the daily weather
     // append 5 day forecast to the five cards
