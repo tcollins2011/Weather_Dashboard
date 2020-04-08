@@ -17,6 +17,7 @@ $("#add-city").on("click", function(event){
     var cityName = $("#exampleInputCity").val().trim()
     displayCityInfo()
     addLocalStorage()
+    fiveDayWeather()
 
     // push the city to local storage
     // perform the search weather function
@@ -39,7 +40,6 @@ function addLocalStorage(){
 function displayCityInfo(){
     var cityName = $("#exampleInputCity").val().trim()
     var queryURL = 'https://api.openweathermap.org/data/2.5/weather?q='+ cityName + '&units=imperial&appid=05eafc3d640b89d430555b1c8c878c13'
-    console.log(queryURL)
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -49,11 +49,6 @@ function displayCityInfo(){
         var windSpeed = $('<h5>').text('Wind speed: ' + response.wind.speed + ' MPH')
         var uvIndex = $('<h5>').text('Cloud coverage: ' + response.clouds.all +'%')
         var cityName = $('<h3>').text(response.name)
-        console.log(response)
-        console.log(temp)
-        console.log(humidity)
-        console.log(windSpeed)
-        console.log(uvIndex)
         $('.cityWeather').append(cityName)
         $('.cityWeather').append(temp)
         $('.cityWeather').append(humidity)
@@ -67,7 +62,29 @@ function displayCityInfo(){
     
 })
 }
+function fiveDayWeather(){
+    var cityName = $("#exampleInputCity").val().trim()
+    var queryURL = 'https://api.openweathermap.org/data/2.5/forecast/?q=' + cityName + '&units=imperial&appid=05eafc3d640b89d430555b1c8c878c13'
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response){
+        console.log(response)
+        for(i = 0; i > 5; i++){
+            var holder =$('<div>')
+            holder.append($('<h5>').text(response.list[i].main.temp))
+            var date = $('<h5>').text(response.list[i].dt_txt)
+            var icon = response.list[i].weather[0].icon
+            var humidity = response.list[i].main.humidity
 
+            $('.5dayForecast').append(holder)
+        }
+        
+    
+    
+    
+})
+}
 function storeCities() {
     // Stringify and set "cities" key in localStorage to storedCities array
     localStorage.setItem("cities", JSON.stringify(storedCities));
