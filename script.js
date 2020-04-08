@@ -8,7 +8,7 @@
 
 // API key = 05eafc3d640b89d430555b1c8c878c13
 
-
+var storedCities = []
 var date = new Date(11,24,33)
 console.log(date)
 $("#add-city").on("click", function(event){
@@ -16,10 +16,25 @@ $("#add-city").on("click", function(event){
     $('.cityWeather').empty()
     var cityName = $("#exampleInputCity").val().trim()
     displayCityInfo()
+    addLocalStorage()
+
     // push the city to local storage
     // perform the search weather function
 
 })
+
+function addLocalStorage(){
+
+    var cityName = $("#exampleInputCity").val().trim()
+
+    if (cityName === ''){
+        return
+    }
+    storedCities.push(cityName)
+    storeCities()
+    renderCities()
+
+}
 
 function displayCityInfo(){
     var cityName = $("#exampleInputCity").val().trim()
@@ -51,6 +66,31 @@ function displayCityInfo(){
     // append 5 day forecast to the five cards
     
 })
-
 }
+
+function storeCities() {
+    // Stringify and set "cities" key in localStorage to storedCities array
+    localStorage.setItem("cities", JSON.stringify(storedCities));
+}
+
+function renderCities() {
+  // Clears out saved city list
+  $('.savedCities').empty()
+
+  // Render a new li for each todo
+  for (var i = 0; i < storedCities.length; i++) {
+    var city = storedCities[i];
+
+    var button = $("<li>");
+    button.html(city)
+    // bttn.attr("data-index", i);
+
+    // var button = $("<button>");
+    // button.textContent = "remove";
+
+    // li.append(button);
+    $('.savedCities').append(button);
+  }
+}
+
 
